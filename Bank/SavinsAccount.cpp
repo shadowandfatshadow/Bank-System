@@ -58,7 +58,7 @@ void  SavingsAccount::settle(const Date& date){
 }
 
 //CreditAccount类相关函数的实现
-CreditAccount::CreditAccount(const Date& date, string& id, double credit, double rate, double fee)
+CreditAccount::CreditAccount(const Date& date, const string& id, double credit, double rate, double fee)
 	:Account(date,id), credit(credit), rate(rate), fee(fee), acc(date, 0){}
 
 void CreditAccount::deposit(const Date& date, double amount, const string& desc){
@@ -67,7 +67,7 @@ void CreditAccount::deposit(const Date& date, double amount, const string& desc)
 }
 
 void CreditAccount::withdraw(const Date& date, double amount, const string& desc){
-	if (amount > getBalance()){								//取钱太多肯定不行
+	if (amount > getCredit()){								//取钱太多肯定不行
 		cout << "对不起，你没这么多钱，哈哈哈哈！" << endl;
 	}
 	else{
@@ -81,7 +81,7 @@ void  CreditAccount::settle(const Date& date){
 	if (interest != 0){
 		record(date, interest, "interest");
 	}
-	if (date.getMonth == 1){
+	if (date.getMonth() == 1){
 		record(date, -fee, "annual fee");
 	}
 	acc.reset(date, getDebt());

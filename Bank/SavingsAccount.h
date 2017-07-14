@@ -1,7 +1,6 @@
 #ifndef _SAVINGSACCOUNT_H 
 #define _SAVINGSACCOUNT_H
 
-#include "date.h"
 #include"accumulator.h"
 #include <string>
 using namespace std;
@@ -55,7 +54,7 @@ class CreditAccount:public Account{
 private:
 	Accumulator acc;
 	double credit;											//信用额度
-	double rate;											//欠款的日利率
+	double rate;												//欠款的日利率
 	double fee;												//信用卡年费
 	double getDebt()const {									//获得欠额款	
 		double balance = getBalance();
@@ -63,7 +62,7 @@ private:
 	}
 
 public:
-	CreditAccount(const Date& date, string& id, double credit, double rate, double fee);
+	CreditAccount(const Date& date,const string& id, double credit, double rate, double fee);
 	double getCredit()const{
 		return credit;
 	}

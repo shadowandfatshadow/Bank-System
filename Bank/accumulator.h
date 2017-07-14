@@ -28,9 +28,6 @@ public:
 		this->value = value;
 		sum = 0;
 	}
-
-	~Accumulator();
-
 };
 
 
