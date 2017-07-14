@@ -1,3 +1,5 @@
+/*账户类，包含储蓄账户和信用卡账户*/
+
 #ifndef _SAVINGSACCOUNT_H 
 #define _SAVINGSACCOUNT_H
 

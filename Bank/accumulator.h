@@ -1,3 +1,4 @@
+/*计算日期之间的间隔天数*/
 #ifndef _ACCUMULATOR_H
 #define _ACCUMULATOR_H
 
