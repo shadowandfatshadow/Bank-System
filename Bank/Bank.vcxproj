@@ -78,12 +78,12 @@
   <ItemGroup>
     <ClInclude Include="accumulator.h" />
     <ClInclude Include="date.h" />
-    <ClInclude Include="SavingsAccount.h" />
+    <ClInclude Include="Account.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="date.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="SavinsAccount.cpp" />
+    <ClCompile Include="Account.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

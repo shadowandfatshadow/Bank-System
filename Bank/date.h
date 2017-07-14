@@ -28,7 +28,9 @@ public:
 	int distance(const Date &date) const{
 		return totalDays - date.totalDays;
 	}
-
+	int operator - (const Date& date)const {
+		return totalDays - date.totalDays;
+	}
 };
 
 

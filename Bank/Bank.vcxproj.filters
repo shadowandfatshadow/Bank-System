@@ -15,13 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SavingsAccount.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="date.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="accumulator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Account.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -29,10 +29,10 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="SavinsAccount.cpp">
+    <ClCompile Include="date.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="date.cpp">
+    <ClCompile Include="Account.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

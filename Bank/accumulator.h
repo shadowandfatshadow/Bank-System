@@ -14,7 +14,7 @@ public:
 
 	//获得日期的累加结果
 	double getSum(const Date& date) const{
-		return sum + value*date.distance(lastDate);
+		return sum + value*(date - lastDate);
 	}
 	//在date将数值变更为value
 	void change(const Date& date, double value){

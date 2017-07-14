@@ -1,6 +1,6 @@
 #include<iostream>
 #include<cmath>
-#include"SavingsAccount.h"
+#include"Account.h"
 
 
 int main(){
@@ -10,33 +10,66 @@ int main(){
 	SavingsAccount s2(date, "2014110104", 0.015);
 	CreditAccount c1(date, "c1234", 10000, 0.0005, 50);
 
-	//11月的几笔账目
-	s1.deposit(Date(2008, 11, 5), 5000, "salary");
-	s2.deposit(Date(2008, 11, 25), 10000, "sell stock");
-	c1.withdraw(Date(2008, 11, 15), 2000, "buy something");
+	Account* accounts[] = { &s1, &s2, &c1 };
+	const int n = sizeof(accounts) / sizeof(Account*);			//账户总数
+	//c选项的意思是在这个月改变天数，d选项是进入下个月
+	cout << "(d)存钱 (w)取钱 (s)显示 (c)change day  (n)next month  (e) exit" << endl;
+	char cmd;
 
-	//计算信用卡
-	c1.settle(Date(2008, 12, 1));
-
-	//12月的几笔账目
-	c1.deposit(Date(2008, 12, 5), 5500, "reply the credit");
-	s1.withdraw(Date(2008, 12, 20), 4000, "salary");
-
-	//结算所有账户的信息
-	s1.settle(Date(2009, 1, 1));
-	s2.settle(Date(2009, 1, 1));
-	c1.settle(Date(2009, 1, 1));
-	
-	//输出用户信息
-	cout << endl;
-	s1.show();	
-	cout << endl;
-	s2.show();
-	cout << endl;
-	c1.show();
-	cout << endl;
-
-	cout << "Total:" << Account::getTotal() << endl;
+	do{
+		date.show();
+		cout << "\tTotal:" << Account::getTotal << "\tcommand>";
+		int index, day;
+		double amount;
+		string desc;
+		cin >> cmd;
+		switch (cmd){
+		case 'd':
+			cout << "请输入账号下标和要存入的金额" << endl;
+			cin >> index >> amount;					//输下标和金额，不人性化
+			cout << "请为这笔钱做一个解释" << endl;
+			getline(cin, desc);
+			accounts[index]->deposit(date, amount, desc);
+			break;
+		case 'w':
+			cout << "请输入账号下标和要取出的金额" << endl;
+			cin >> index >> amount;
+			cout << "请为这笔钱做一个解释" << endl;
+			getline(cin, desc);
+			accounts[index]->withdraw(date, amount, desc);
+			break;
+		case 's':
+			for (int i = 0; i < n; i++){
+				cout << "[" << i << "]";
+				accounts[i]->show();
+				cout << endl;
+			}
+			break;
+		case 'c':
+			cin >> day;
+			if (day < date.getDay()){
+				cout << "无法选之前的日子";
+			}
+			else if (day > date.getMaxDay()){
+				cout << "这个月没有这一天哦";
+			}
+			else{
+				date = Date(date.getYear(), date.getMonth(), day);
+			}
+			break;
+		case 'n':
+			if (date.getMonth() == 12){
+				date = Date(date.getYear() + 1, 1, 1);
+			}
+			else{
+				date = Date(date.getYear(), date.getMonth() + 1, 1);
+			}
+			for (int i = 0; i < n; i++){
+				accounts[i]->settle(date);
+			}
+			break;
+		}
+	} while (cmd != 'e');
 
 	return 0;
 }
