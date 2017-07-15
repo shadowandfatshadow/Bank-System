@@ -5,13 +5,33 @@
 
 #include"accumulator.h"
 #include <string>
+#include	<map>
+#include <istream>
 using namespace std;
+
+class Account;										//前置声明
+class AccountRecord{									//账目记录
+private:
+	Date date;										//日期
+	const Account* account;							//账户
+	double amount;									//金额
+	double balance;									//余额
+	string desc;										//描述
+public:
+	AccountRecord(const Date& date, const Account* account, double amount, double balance, const string& desc);
+	void show()const;
+};
+
+
+//定义用来存储账户记录的多重映射类型
+typedef std::multimap<Date, AccountRecord> RecordMap;
 
 class Account{										//账户类，这是个基类，可以派生出储蓄账户，信用账户啊之类的
 private:
 	string id;										//账号
 	double balance;									//余额
-	static double total;							//所有账户的总金额
+	static double total;								//所有账户的总金额
+	static RecordMap recordMap;						//账目记录
 protected:
 	//供派生类使用的构造函数，id为账户
 	Account(const Date& date, const string& id);
@@ -34,11 +54,15 @@ public:
 	virtual void withdraw(const Date& date, double amount, const string &desc) = 0;	//取出现金	
 	//结算利息，每年一月一日调用此函数
 	virtual void settle(const Date &date) = 0;										
-	//显示
-	virtual void show()const;
+	//查询指定时间内的账目记录
+	static void query(const Date& begin, const Date& end);
+	virtual void show(std::ostream &out)const;
 };
 
-
+inline std::ostream& operator << (std::ostream &out, const Account &account){
+	account.show(out);
+	return out;
+}
 
 
 class SavingsAccount:public Account{					//储蓄账户类	
@@ -91,7 +115,7 @@ public:
 	void withdraw(const Date& date, double amount, const string &desc);				//取出现金
 	//结算利息，每年一月一日调用此函数
 	void settle(const Date& date);
-	void show()const;
+	virtual void show(std::ostream &out)const;
 };
 
 

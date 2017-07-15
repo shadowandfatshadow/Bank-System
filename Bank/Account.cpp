@@ -2,15 +2,36 @@
 #include<cmath>
 #include"Account.h"
 #include"accumulator.h"
+#include<utility>
 using namespace std;
+using namespace std::rel_ops;
+
+//AccountRecord类的实现
+AccountRecord::AccountRecord(const Date& date, const Account* account,
+	double amount, double balance, const string& desc)
+	:date(date), account(account), amount(amount), balance(balance), desc(desc){};
+
+void AccountRecord::show()const{
+	cout <<date << "\t#" << account->getId() << "\t" << amount << "\t" << balance << "\t" << desc << endl;
+}
 
 //静态变量初始化
 double Account::total = 0;
+RecordMap Account::recordMap;
+void Account::query(const Date& begin, const Date& end){
+	if (begin <= end){
+		RecordMap::iterator it1 = recordMap.lower_bound(begin);
+		RecordMap::iterator it2 = recordMap.upper_bound(end);
+		for (RecordMap::iterator it = it1; it != it2; ++it){
+			it->second.show();
+		}
+	}
+}
+
 
 //Account类的实现
 Account::Account(const Date& date, const string& id):id(id),balance(0){
-	date.show();
-	cout << "\t#" << id << "created" << endl;
+	cout <<date<< "\t#" << id << "created" << endl;
 }
 void Account::record(const Date& date, double amount, const string &desc){
 	amount = floor(amount * 100 + 0.5) / 100;				//保留小数点后两位,floor是向下取整，+0.5是为了四舍五入
@@ -21,8 +42,8 @@ void Account::record(const Date& date, double amount, const string &desc){
 
 }
 
-void Account::show()const{
-	cout << "#" << id << "\tBanlance:" << balance ;
+void Account::show(ostream &out)const{
+	cout << id << "\tBanlance:" << balance ;
 }
 
 void Account::err(const string& msg)const{
@@ -87,7 +108,7 @@ void  CreditAccount::settle(const Date& date){
 	acc.reset(date, getDebt());
 }
 
-void CreditAccount::show()const{
-	Account::show();
+void CreditAccount::show(ostream &out)const{
+	Account::show(out);
 	cout << "\tAvailable credit:" << getAvailableCredit();
 }
